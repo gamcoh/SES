@@ -3,12 +3,11 @@
 import re
 from cStringIO import StringIO
 import sys
-import ast
-from pprint import pprint
 
 class SES:
 	ALLOWD_SCRIPT={
-		'python': ('@@begin-python', '@@end-python', 'self.parsePython')
+		'python': ('@@begin-python', '@@end-python', 'self.parsePython'),
+		'sql': ('@@begin-sql', '@@end-sql', 'self.parseSql')
 	}
 	FILE_WATCHED=''
 
@@ -36,6 +35,8 @@ class SES:
 		content = content.replace(self.ALLOWD_SCRIPT['python'][0]+code[0]+self.ALLOWD_SCRIPT['python'][1], newCode)
 		newFile = open(self.FILE_WATCHED, 'w').write(content)
 
+	def parseSql(self):
+		print 'sql'
 
 if __name__ == '__main__':
 	SES('example.txt')
