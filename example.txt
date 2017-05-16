@@ -1,7 +1,6 @@
 Salut comment va ?
 
 
-@@begin-python
-for x in range(50, 1000, 50):
-	print ".m%s { margin-top: %spx; }" % (x, x)
-@@end-python
+@@begin-bash
+which python
+@@end-bash
