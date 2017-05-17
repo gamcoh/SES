@@ -3,3 +3,12 @@ Salut comment va ?
 @@begin-sql
 show databases like 'routagev2%'
 @@end-sql
+
+@@begin-python
+for x in range(20):
+	print x
+@@end-python
+
+@@begin-bash
+which python
+@@end-bash
