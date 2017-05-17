@@ -1,16 +1,5 @@
 Salut comment va ?
 
-@@begin-python
-for x in range(10):
-	print x
-@@end-python
-
-@@begin-python
-var=('hey1', 'hey2')
-for v in var:
-	print v
-@@end-python
-
-@@begin-bash
-which python
-@@end-bash
+@@begin-sql
+show databases like 'routagev2%'
+@@end-sql
