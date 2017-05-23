@@ -10,12 +10,12 @@ import mysql.connector
 
 class SES:
     ALLOWD_SCRIPT = {
-        'python': ('@@begin-python', '@@end-python', 'self.parsePython'),
-        'sql': ('@@begin-sql', '@@end-sql', 'self.parseSql'),
-        'bash': ('@@begin-bash', '@@end-bash', 'self.parseBash')
+        'python': ('@@begin-python', '@@end-python', 'self.parsePython()'),
+        'sql': ('@@begin-sql', '@@end-sql', 'self.parseSql()'),
+        'bash': ('@@begin-bash', '@@end-bash', 'self.parseBash()')
     }
     FILE_WATCHED = ''
-    MYSQL_LOGIN = {'login': 'LOGIN', 'password': 'PASSWORD', 'host': 'HOST', 'database': 'DATABASE'}
+    MYSQL_LOGIN = {'login': 'LOGIN', 'password': 'PASS', 'host': 'HOST', 'database': 'DB'}
 
     def __init__(self, file):
         if not path.exists(file):
@@ -24,18 +24,10 @@ class SES:
 
         self.FILE_WATCHED = file
         content = open(file, 'r').read()
-        
-        # find if there is a python script
-        if re.findall(self.ALLOWD_SCRIPT['python'][0]+'.*'+self.ALLOWD_SCRIPT['python'][1], content, re.DOTALL):
-            self.parsePython()
 
-        # find if there is a sql script
-        if re.findall(self.ALLOWD_SCRIPT['sql'][0]+'.*'+self.ALLOWD_SCRIPT['sql'][1], content, re.DOTALL):
-            self.parseSql()
-
-        # find if there is a bash script
-        if re.findall(self.ALLOWD_SCRIPT['bash'][0]+'.*'+self.ALLOWD_SCRIPT['bash'][1], content, re.DOTALL):
-            self.parseBash()
+        for lang, macros in self.ALLOWD_SCRIPT.items():
+            if re.findall(self.ALLOWD_SCRIPT[lang][0]+'.*'+self.ALLOWD_SCRIPT[lang][1], content, re.DOTALL):
+                exec macros[2]
 
     def parsePython(self):
         oldContent = open(self.FILE_WATCHED, 'r').read()
